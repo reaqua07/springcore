@@ -44,10 +44,17 @@ public class UserController {
         return "redirect:/";
     }
 
-
     // 관리자 인가를 받지 않은 회원일 경우의 페이지
     @GetMapping("/user/forbidden")
     public String forbidden() {
         return "forbidden";
+    }
+
+    @GetMapping("/user/kakao/callback")
+    public String kakaoLogin(String code) {
+        // authorizedCode: 카카오 서버로부터 받은 인가 코드
+        userService.kakaoLogin(code);
+
+        return "redirect:/";
     }
 }
