@@ -14,4 +14,12 @@ public class HomeController {
         model.addAttribute("username", userDetails.getUsername());
         return "index";
     }
+
+    // 관리자일때 보이는 홈페이지지
+   @GetMapping("/admin")
+    public String admin(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        model.addAttribute("username", userDetails.getUsername());
+        model.addAttribute("admin", true);
+        return "index";
+    }
 }

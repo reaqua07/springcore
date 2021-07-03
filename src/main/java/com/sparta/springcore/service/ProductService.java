@@ -23,14 +23,15 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> getProducts() throws SQLException {
-        // 멤버 변수 사용
-        return productRepository.findAll();
+    // 회원 ID 로 등록된 모든 상품 조회
+    public List<Product> getProducts(Long userId) {
+        return productRepository.findAllByUserId(userId);
     }
 
-    public Product createProduct(ProductRequestDto requestDto) {
+    @Transactional // 메소드 동작이 SQL 쿼리문임을 선언합니다.
+    public Product createProduct(ProductRequestDto requestDto, Long userId ) {
         // 요청받은 DTO 로 DB에 저장할 객체 만들기
-        Product product = new Product(requestDto);
+        Product product = new Product(requestDto, userId);
         productRepository.save(product);
         return product;
     }
@@ -50,5 +51,10 @@ public class ProductService {
         // transactional 이 있으면,, 값이 변화할 때 자동으로 save 한다다
 //       productRepository.save(product);
         return product;
+    }
+
+    // 모든 상품 조회 (관리자용)
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
     }
 }
