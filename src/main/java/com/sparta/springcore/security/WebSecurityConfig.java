@@ -2,6 +2,7 @@ package com.sparta.springcore.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -9,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity // 스프링 Security 지원을 가능하게 함
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     // 비밀번호를 암호화하기 위한 해쉬함수
@@ -45,6 +47,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()   //로그아웃 기능을
                 .logoutUrl("/user/logout")  // user/logout 요청이 들어오면 controller 작업 필요없이 자동 로그아웃
-                .permitAll();   // 허용한다
-         }
+                .permitAll()   // 허용한다
+                .and()
+                .exceptionHandling()    // 인가가 되지 않았을 때
+                .accessDeniedPage("/user/forbidden");   // 포비든 페이지로 이동동
+        }
 }

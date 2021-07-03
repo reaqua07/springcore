@@ -43,4 +43,11 @@ public class UserController {
         userService.registerUser(requestDto);
         return "redirect:/";
     }
+
+
+    // 관리자 인가를 받지 않은 회원일 경우의 페이지
+    @GetMapping("/user/forbidden")
+    public String forbidden() {
+        return "forbidden";
+    }
 }
