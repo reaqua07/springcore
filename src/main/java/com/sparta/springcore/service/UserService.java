@@ -36,7 +36,7 @@ public class UserService {
         this.authenticationManager = authenticationManager;
     }
 
-    public void registerUser(SignupRequestDto requestDto) {
+    public User registerUser(SignupRequestDto requestDto) {
         String username = requestDto.getUsername();
         // 회원 ID 중복 확인          // db 확인
         Optional<User> found = userRepository.findByUsername(username);
@@ -64,6 +64,8 @@ public class UserService {
 
         User user = new User(username, password, email, role);
         userRepository.save(user);
+        return user; // 테스트 코드에서 user의 정보를 받기 위해 리턴해준다 // 테스트를 위해 굳이 내 코드를 바꿔야 하나?
+                                                                    // 테스트가 가능한 코드가 좋은 코드!
     }
 
     public void kakaoLogin(String authorizedCode) {
