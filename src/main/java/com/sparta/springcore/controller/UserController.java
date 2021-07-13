@@ -104,9 +104,11 @@ public class UserController {
         // 회원 "user1" 조회
         User foundUser1 = userRepository.findByUsername("user1").orElse(null);
         // 회원 "user1" 삭제
+        // 영속성 컨텍스트에서도 삭제처리됨
         userRepository.deleteById(foundUser1.getId());
 
         // 회원 "user1" 조회
+        // 대신 객체에서는 검색됨
         User deletedUser1 = userRepository.findByUsername("user1").orElse(null);
 
         // -------------------
@@ -140,6 +142,7 @@ public class UserController {
         }
 
         // 회원 "user1" 을 또 조회
+        // 변수명이 달라져도 영속성에 의해서 같은 값을 가져온다
         User user2 = userRepository.findByUsername("user1").orElse(null);
 
         System.out.println(user1);

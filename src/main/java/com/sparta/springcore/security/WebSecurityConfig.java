@@ -16,7 +16,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     // 비밀번호를 암호화하기 위한 해쉬함수
     // 다른 클래스에서도 사용할 수 있도록 빈으로 등록
-   @Bean
+    @Bean
     public BCryptPasswordEncoder encodePassword() {
         return new BCryptPasswordEncoder();
     }
@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/images/**").permitAll()
                 // css 폴더를 login 없이 허용
                 .antMatchers("/css/**").permitAll()
-                // 회원 가입 화면 접귾허용
+                // 회원 가입 화면 접근허용
                 .antMatchers("/user/**").permitAll()
                 // h2 페이지 접근 허용
                 .antMatchers("/h2-console/**").permitAll()

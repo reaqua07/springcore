@@ -5,15 +5,14 @@ import com.sparta.springcore.util.URLValidator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
+import java.util.List;
 
 @Setter
 @Getter // get 함수를 일괄적으로 만들어줍니다.
 @NoArgsConstructor // 기본 생성자를 만들어줍니다.
 @Entity // DB 테이블 역할을 합니다.
 public class Product extends Timestamped {
-
     // ID가 자동으로 생성 및 증가합니다.
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
@@ -35,18 +34,18 @@ public class Product extends Timestamped {
     @Column(nullable = false)
     private int myprice;
 
-    // 특정 회원
     @Column(nullable = false)
     private Long userId;
 
-    // 관심상품 등록시에
-    // 발생할 수 있는 Edge 케이스
+    @ManyToMany // 프로덕트 다 : 폴더 다
+    private List<Folder> folderList;
+
     public Product(ProductRequestDto requestDto, Long userId) {
         // 입력값 Validation
-        if (userId == null || userId < 0) { // 음수
+        if (userId == null || userId < 0) {
             throw new IllegalArgumentException("회원 Id 가 유효하지 않습니다.");
         }
-                                // 널 값 들어올 때
+
         if (requestDto.getTitle() == null || requestDto.getTitle().isEmpty()) {
             throw new IllegalArgumentException("저장할 수 있는 상품명이 없습니다.");
         }
@@ -72,8 +71,12 @@ public class Product extends Timestamped {
         this.myprice = 0;
     }
 
-    // 관심 상품의 가격 변경 시 사용
-    public void updateMyPrice(int myPrice) {
-        this.myprice = myPrice;
+    // 관심 상품의 가격 변경 시 사용합니다.
+    public void updateMyPrice(int price) {
+        this.myprice = price;
+    }
+
+    public void addFolder(Folder folder) {
+        this.folderList.add(folder);
     }
 }

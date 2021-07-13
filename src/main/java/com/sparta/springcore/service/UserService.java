@@ -50,7 +50,7 @@ public class UserService {
         String email = requestDto.getEmail();
 
         // 사용자 ROLE 확인
-        // 처음에는 일반 사용자 권한을 부여여
+        // 처음에는 일반 사용자 권한을 부여
         UserRole role = UserRole.USER;
         // 관리자 권한 부여를 요청했다면
         if (requestDto.isAdmin()) {
